@@ -32,8 +32,8 @@ public final class MapRights extends JavaPlugin {
     @Override
     public void onEnable() {
         // Get server version
-        Pattern versionPattern = Pattern.compile("(1)\\.(\\d+)(\\.\\d+)?");
-        Matcher matcher = versionPattern.matcher(getServer().getVersion());
+        Pattern versionPattern = Pattern.compile("^(\\d+)\\.(\\d+)");
+        Matcher matcher = versionPattern.matcher(getServer().getBukkitVersion());
         int[] version = new int[2];
         if (matcher.find()) {
             version[0] = Integer.parseInt(matcher.group(1));
@@ -65,7 +65,7 @@ public final class MapRights extends JavaPlugin {
         Objects.requireNonNull(getCommand("maprights")).setTabCompleter(new MapRightsCommandCompleter());
 
         // Register listeners
-        if (version[0] == 1 && version[1] >= 21) {
+        if (version[0] > 1 || version[1] >= 21) {
             getServer().getPluginManager().registerEvents(new MapCopyListener_v1_21(), this);
         } else {
             getServer().getPluginManager().registerEvents(new MapCopyListener(), this);
