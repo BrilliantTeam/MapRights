@@ -79,7 +79,7 @@ public class MapManager {
     }
 
     public boolean signMap(@NotNull Player player, @NotNull ItemStack itemStack) {
-        if (!isFilledMap(itemStack) || !itemStack.hasItemMeta()) {
+        if (!isFilledMap(itemStack) || !itemStack.hasItemMeta() || !((MapMeta) itemStack.getItemMeta()).hasMapView()) {
             return false;
         }
 
@@ -113,7 +113,6 @@ public class MapManager {
         ZonedDateTime signTime = ZonedDateTime.now();
         MapMeta mapMeta = (MapMeta) itemMeta;
         MapView mapView = mapMeta.getMapView();
-        assert mapView != null;
         Location mapLocation = new Location(mapView.getWorld(), mapView.getCenterX(), 0.0, mapView.getCenterZ());
         Location signLocation = player.getLocation();
         Map<String, String> info = Map.of(
